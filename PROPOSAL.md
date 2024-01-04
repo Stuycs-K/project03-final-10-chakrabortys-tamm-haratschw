@@ -21,13 +21,13 @@ A description of your technical design. This should include:
 
 How you will be using the topics covered in class in the project.
 
-*Memory allocation will be used for allocating strings for user input, and allowing for the manipulation of bytes in the strings to garble them and send them to the next user.
+- Memory allocation will be used for allocating strings for user input, and allowing for the manipulation of bytes in the strings to garble them and send them to the next user.
 
-*Files will store previous inputs and garbled outputs, and will be read from to get a tempalte for the garbled outputs.
+- Files will store previous inputs and garbled outputs, and will be read from to get a tempalte for the garbled outputs.
 
-*Processes(forking and execing) will be used for executing a psuedo shell to write to the server.
+- Processes(forking and execing) will be used for executing a psuedo shell to write to the server.
 
-*Sockets are necessary for communication between client(s) and server.
+- Sockets are necessary for communication between client(s) and server.
      
 How you are breaking down the project and who is responsible for which parts.
 
@@ -37,10 +37,10 @@ What data structures you will be using and how.
      
 What algorithms and /or data structures you will be using, and how.
 
-*Character arrays(strings) will be input(getline) and manipulated by changing some amount of letters or words within the array.
-**Random adjustment of the bytes, to be given a new value from 32 to 126, and a way to make sure the string isn't overly changed, in letter count or proximity of letters(to avoid changing entire words unless desired).
-*Sockets for communication, similar to Lab 16's networking
-*Handshake algorithm to confirm users and user participation
+- Character arrays(strings) will be input(getline) and manipulated by changing some amount of letters or words within the array.
+    - Random adjustment of the bytes, to be given a new value from 32 to 126, and a way to make sure the string isn't overly changed, in letter count or proximity of letters(to avoid changing entire words unless desired).
+- Sockets for communication, similar to Lab 16's networking
+- Handshake algorithm to confirm users and user participation
     
 # Intended pacing:
 
