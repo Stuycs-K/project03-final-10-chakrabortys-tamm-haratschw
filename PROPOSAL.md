@@ -23,7 +23,7 @@ How you will be using the topics covered in class in the project.
 
 - Memory allocation will be used for allocating strings for user input, and allowing for the manipulation of bytes in the strings to garble them and send them to the next user.
 
-- Files will store previous inputs and garbled outputs, and will be read from to get a tempalte for the garbled outputs.
+- Files will store previous inputs and garbled outputs, and will be read from to get a template for the garbled outputs.
 
 - Processes(forking and execing) will be used for executing a psuedo shell to write to the server.
 
@@ -31,7 +31,9 @@ How you will be using the topics covered in class in the project.
      
 How you are breaking down the project and who is responsible for which parts.
 
-- 
+- Communication, the ability to write to files and the server
+- Reading user input and sending back some kind of output to clients
+- Sending output post-garbling to clients
   
 What data structures you will be using and how.
      
@@ -45,3 +47,8 @@ What algorithms and /or data structures you will be using, and how.
 # Intended pacing:
 
 A timeline with expected completion dates of parts of the project.
+
+01/0X/24 - Completion of socket communications
+01/0X/24 - Completion of user input and file writing
+01/0X/24 - Completion string manipulation algorithm
+01/16/24 - Completion, or near-completion, with both game and network aspects, with bug-fixes
