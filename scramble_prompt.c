@@ -4,15 +4,14 @@
 #include <stdlib.h>
 
 char* scramble(char* string){
-    char* start = calloc(strlen(string), sizeof(string));
-    char* modSTR = start;
+    char* modSTR = string;
     //while(modSTR < start + strlen(string)){}
-        modSTR += 7;
-        *modSTR = 65;//rand() % 94 + 32;
+    printf("Character to be modified: %s\n", modSTR + 4);
+    *modSTR = 65;//rand() % 94 + 32;
     printf("%s", string);
     return string;
 }
 
 int main(){
-    scramble("Hello World, Beautiful Day\n");
+    char* eggs = scramble("Hello World, Beautiful Day\n");
 }
