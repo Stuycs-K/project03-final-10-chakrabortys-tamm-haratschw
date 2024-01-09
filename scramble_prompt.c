@@ -3,6 +3,13 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include "scramble_prompt.h"
+
+struct node* structHeap(char word[128], struct node *var){
+    var = calloc(1, sizeof(struct node));
+    strcpy(var->word, word);
+    return var;
+}
 
 int randomer(char* string){
     size_t string_length = strlen(string);
@@ -45,6 +52,16 @@ char* scramble(char* string){
 //separates the prompt into separate words, each to be passed as an argument into scramble().
 char* scramble_prompt(char* string){
 
+    char * old_string = strdup(string);
+    char * field;
+    const char* delimiters = " ";
+    while((field = strsep(&string, delimiters)) != 0){
+        if(*field == '\0'){
+            continue;
+        }
+
+    }
+    
 }
 
 int main(){
