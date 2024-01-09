@@ -1,5 +1,3 @@
+int main() {
 
-
-char * scramble(char * dest, char * src) {
-    
 }
