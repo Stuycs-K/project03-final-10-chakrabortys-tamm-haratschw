@@ -1,1 +1,1 @@
-
+default: compile run
