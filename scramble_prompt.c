@@ -33,8 +33,18 @@ char* scramble(char* string){
     printf("Character to be modified: %d or %c\n", *modSTR, *modSTR);
     *modSTR = rand() % 94 + 32;
     printf("Character modified into: %d or %c\n", *modSTR, *modSTR);
+    for(int i = 0; i < strlen(string); i++){
+        if(i == random_value){
+            list[i] = *modSTR;
+        }
+    }
     printf("%s\n", list);
     return string;
+}
+
+//separates the prompt into separate words, each to be passed as an argument into scramble().
+char* scramble_prompt(char* string){
+
 }
 
 int main(){
