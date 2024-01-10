@@ -7,4 +7,7 @@
 
 #define BUFFER_SIZE 1024
 
+int network_start(int address);
+int game_loop();
+
 #endif

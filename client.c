@@ -5,7 +5,7 @@
 */
 
 int main() {
-
+    game_loop();
 }
 
 int network_start(int address) {
@@ -20,14 +20,14 @@ int game_loop() {
         /* If it is the player's turn */
         if (1) {
             /* Give the user the scrambled prompt */
-            printf("Your prompt is: PROMPT GOES HERE");
+            printf("Your prompt is: PROMPT GOES HERE\n");
             /* Ask the user to try to write what the original prompt was */
+            printf("Pass on what you think the original prompt was: ");
             fgets(input, BUFFER_SIZE, stdin);
             /* Remove newline at the end of the input */
             input[strcspn(input, "\n")] = 0;
-
             /* Send the input back to the server, give signal of completion*/
         }
-        /* Check for a signal to skip your current turn */
+        /* Check for a signal to skip your current turn. Ctrl + C will be used */
     }
 }
