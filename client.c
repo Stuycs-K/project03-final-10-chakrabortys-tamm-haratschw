@@ -1,18 +1,22 @@
 #include "client.h"
+#include "client_networking.h"
 /* 
     The part of the client that interacts with the user.
     Connections are handled using client_networking.c 
 */
 
 int main() {
-    game_loop();
+    int server_socket = network_start("127.0.0.1");
+    game_loop(server_socket);
 }
 
-int network_start(int address) {
-    /* Use functions from client_networking.c here */
+int network_start(char * address) {
+    int server_socket = client_tcp_handshake(address);
+    /* Perform some other networking actions as well. */
+    return server_socket;
 }
 
-int game_loop() {
+void game_loop(int server_socket) {
     char input[BUFFER_SIZE + 1];
 
     /* While the game is ongoing */

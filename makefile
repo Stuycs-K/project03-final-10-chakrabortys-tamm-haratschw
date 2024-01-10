@@ -1,4 +1,4 @@
-all: client server
+all: client server prompts
 client: client.o client_networking.o
 	gcc -o client client.o client_networking.o
 
@@ -13,6 +13,10 @@ server.o: server.c server.h
 
 client_networking.o: client_networking.c client.h
 	gcc -c client_networking.c
+
+prompts: scramble_prompt.c get_prompt.c prompts.h
+	gcc -c scramble_prompt.c
+	gcc -c get_prompt.c
 
 clean:
 	rm *.o
