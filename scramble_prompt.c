@@ -18,6 +18,14 @@ int wordInserter(struct node *list, char* word){
     return 0;
 }
 
+int printList(struct node *head){
+    struct node *temp = head;
+    while(temp != NULL){
+        printf("%s\n", temp->word);
+        temp = temp->nextNode;
+    }
+}
+
 //frees the linked list of words
 struct node * free_list(struct node *list){
     struct node *traverser = list;
@@ -70,19 +78,41 @@ char* scramble(char* string){
 
 //separates the prompt into separate words, each to be passed as an argument into scramble().
 char* scramble_prompt(char* string){
-
-    char * old_string = strdup(string);
-    char * field;
-    const char* delimiters = " ";
-    while((field = strsep(&string, delimiters)) != 0){
-        if(*field == '\0'){
+    char * changer_string = strdup(string);
+    char * token, *saveptr;
+    //creates linked_list
+    struct node *wordList = NULL;
+    const char* delimiter = " ";
+    while((token = strsep(&changer_string, delimiter)) != NULL){
+        wordInserter(&wordList, token);
+        //this if-statement skips the processing for empty tokens using `continue`.
+        if(*token == '\0'){
             continue;
         }
-
     }
-    
+    //loop through completed linked-list
+    struct node *traverser = wordList;
+    char* word;
+    char* updated_word;
+    while(traverser != NULL){
+        strcpy(word, traverser->word);
+        strcpy(updated_word, scramble(word));
+        strcpy(traverser->word, updated_word);
+        traverser = traverser->nextNode;
+    }
+    printList(wordList);
+    char* return_phrase = "";
+    char* spacer = " ";
+    struct node *traverser = wordList;
+    while(traverser != NULL){
+        strcat(return_phrase, traverser->word);
+        strcat(return_phrase, spacer);
+    }
+    free(changer_string);
+    return return_phrase;
 }
 
 int main(){
-    char* eggs = scramble("Hello World, Beautiful Day\n");
+    char* eggs = scramble_prompt("Hello World, Beautiful Day\n");
+    printf("%d\n", eggs);
 }
