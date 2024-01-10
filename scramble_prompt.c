@@ -5,10 +5,29 @@
 #include <time.h>
 #include "scramble_prompt.h"
 
-struct node* structHeap(char word[128], struct node *var){
-    var = calloc(1, sizeof(struct node));
-    strcpy(var->word, word);
-    return var;
+struct node* structHeap(char *word, struct node *nextNode){
+    nextNode = calloc(1, sizeof(struct node));
+    strcpy(nextNode->word, word);
+    return nextNode;
+}
+
+//insert word at end of linked list
+int wordInserter(struct node *list, char* word){
+    struct node *s = structHeap(word, list);
+    s->nextNode = list;
+    return 0;
+}
+
+//frees the linked list of words
+struct node * free_list(struct node *list){
+    struct node *traverser = list;
+    struct node *temp;
+    while(traverser != NULL){
+        temp = traverser;
+        traverser = traverser->nextNode;
+        free(temp);
+    }
+    return NULL;
 }
 
 int randomer(char* string){

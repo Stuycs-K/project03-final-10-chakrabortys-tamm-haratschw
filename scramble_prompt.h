@@ -6,6 +6,5 @@
 
 #ifndef SCRAMBLE_PROMPT
 #define SCRAMBLE_PROMPT
-struct node {char word[128], struct node *nextNode};
-struct node * listHeap {char word[128], struct node *var};
+struct node {char *word; struct node *nextNode};
 #endif
