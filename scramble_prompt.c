@@ -15,7 +15,7 @@ char* scrambleWord(char* string){
     list[i] = "\0";
     srand(time(NULL));
     while(modSTR < list + strlen(string) - 1){
-        modSTR += 1;//rand() % (strlen(string) / 3);
+        modSTR += 3;//rand() % (strlen(string) / 3);
         if( (*modSTR < 48) || (*modSTR > 57 && *modSTR < 65) || (*modSTR > 90 && *modSTR < 97) || (*modSTR > 122)){
             continue;//don't replace
         }
@@ -38,13 +38,13 @@ char* replace_Word(char* string){
     }
     printf("%s\n", word);
     return *word;
-    /*
+    
 
-    */
+    
     
 }
 
 int main(){
     char* eggs = scrambleWord("Hello ] Yes . World , This is Grammar Intact !\n");
-    char* word = replace_Word("Replacable");
+   // char* word = replace_Word("Replacable");
 }
