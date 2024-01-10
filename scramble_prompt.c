@@ -20,22 +20,23 @@ int wordInserter(struct node *list, char* word){
 
 int printList(struct node *head){
     struct node *temp = head;
-    while(temp != NULL){
+    while(temp != 0){
         printf("%s\n", temp->word);
         temp = temp->nextNode;
     }
+    return 0;
 }
 
 //frees the linked list of words
 struct node * free_list(struct node *list){
     struct node *traverser = list;
     struct node *temp;
-    while(traverser != NULL){
+    while(traverser != 0){
         temp = traverser;
         traverser = traverser->nextNode;
         free(temp);
     }
-    return NULL;
+    return 0;
 }
 
 int randomer(char* string){
@@ -50,18 +51,20 @@ int randomer(char* string){
     return 0;
 }
 
-char* scramble(char* string){
+char* scrambleWord(char* string){
+    /*
     //initialize time()
     srand(time(0));
     char* list = calloc(strlen(string), sizeof(list));
     char* modSTR = list;
-    int i = 0;
+    int i;
     for(i = 0; i < strlen(string); i++){
         list[i] = *(string + i);
     }
-    list[i] = "\0";
+    strcpy(&list[i], "\0");
     //use randomer function
     int random_value = randomer(string);
+    /*
     printf("\nrandom_value, serves as index position to modify:%s\n", random_value);
     //while(modSTR < start + strlen(string)){}
     printf("Character to be modified: %d or %c\n", *modSTR, *modSTR);
@@ -73,6 +76,41 @@ char* scramble(char* string){
         }
     }
     printf("%s\n", list);
+    */
+    //work on modSTR
+    /*
+    while(modSTR < list + strlen(string) - 1){
+        modSTR += 1;//rand() % (strlen(string) / 3);
+        if( (*modSTR < 48) || (*modSTR > 57 && *modSTR < 65) || (*modSTR > 90 && *modSTR < 97) || (*modSTR > 122)){
+            continue;//don't replace
+        }
+        if(modSTR == random_value){
+            printf("Character to be modified: %d or %c\n", *modSTR, *modSTR);
+            *modSTR = rand() % 94 + 33;
+            printf("Character modified into: %d or %c\n", *modSTR, *modSTR);
+        }
+    }
+    printf("%s\n", list);
+    return string;
+    */
+    char* list = calloc(strlen(string), sizeof(list));
+    char* modSTR = list;
+    int i = 0;
+    for(i = 0; i < strlen(string); i++){
+        list[i] = *(string + i);
+    }
+    list[i] = "\0";
+    srand(time(0));
+    while(modSTR < list + strlen(string) - 1){
+        modSTR += 1;//rand() % (strlen(string) / 3);
+        if( (*modSTR < 48) || (*modSTR > 57 && *modSTR < 65) || (*modSTR > 90 && *modSTR < 97) || (*modSTR > 122)){
+            continue;//don't replace
+        }
+        printf("Character to be modified: %d or %c\n", *modSTR, *modSTR);
+        *modSTR = rand() % 94 + 33;
+        printf("Character modified into: %d or %c\n", *modSTR, *modSTR);
+    }
+    printf("%s\n", list);
     return string;
 }
 
@@ -81,10 +119,10 @@ char* scramble_prompt(char* string){
     char * changer_string = strdup(string);
     char * token, *saveptr;
     //creates linked_list
-    struct node *wordList = NULL;
+    struct node *wordList = 0;
     const char* delimiter = " ";
-    while((token = strsep(&changer_string, delimiter)) != NULL){
-        wordInserter(&wordList, token);
+    while((token = strsep(&changer_string, delimiter)) != 0){
+        wordInserter(wordList, token);
         //this if-statement skips the processing for empty tokens using `continue`.
         if(*token == '\0'){
             continue;
@@ -94,17 +132,17 @@ char* scramble_prompt(char* string){
     struct node *traverser = wordList;
     char* word;
     char* updated_word;
-    while(traverser != NULL){
+    while(traverser != 0){
         strcpy(word, traverser->word);
-        strcpy(updated_word, scramble(word));
+        strcpy(updated_word, scrambleWord(word));
         strcpy(traverser->word, updated_word);
         traverser = traverser->nextNode;
     }
     printList(wordList);
     char* return_phrase = "";
     char* spacer = " ";
-    struct node *traverser = wordList;
-    while(traverser != NULL){
+    *traverser = wordList;
+    while(traverser != 0){
         strcat(return_phrase, traverser->word);
         strcat(return_phrase, spacer);
     }
@@ -114,5 +152,5 @@ char* scramble_prompt(char* string){
 
 int main(){
     char* eggs = scramble_prompt("Hello World, Beautiful Day\n");
-    printf("%d\n", eggs);
+    printf("%s\n", eggs);
 }

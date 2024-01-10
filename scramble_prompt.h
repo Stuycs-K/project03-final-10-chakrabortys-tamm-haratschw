@@ -6,5 +6,5 @@
 
 #ifndef SCRAMBLE_PROMPT
 #define SCRAMBLE_PROMPT
-struct node {char *word; struct node *nextNode};
+struct node {char *word; struct node *nextNode;};
 #endif
