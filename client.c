@@ -1,5 +1,5 @@
 #include "client.h"
-#include "client_networking.h"
+#include "networking.h"
 /* 
     The part of the client that interacts with the user.
     Connections are handled using client_networking.c 
@@ -8,6 +8,7 @@
 int main() {
     int server_socket = network_start("127.0.0.1");
     game_loop(server_socket);
+    close(server_socket);
 }
 
 int network_start(char * address) {
@@ -18,7 +19,6 @@ int network_start(char * address) {
 
 void game_loop(int server_socket) {
     char input[BUFFER_SIZE];
-    int connection_status;
 
     /* While the game is ongoing */
     while (1) {
