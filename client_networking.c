@@ -32,7 +32,7 @@ int server_tcp_handshake(int listen_socket){
     socklen_t sock_size;
 
     //accept the client connection
-    client_socket = accept(listen_socket, (struct sockaddr *) &client_address, sock_size);
+    client_socket = accept(listen_socket, (struct sockaddr *) &client_address, &sock_size);
 
     return client_socket;
 }

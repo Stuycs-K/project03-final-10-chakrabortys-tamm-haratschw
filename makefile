@@ -2,8 +2,8 @@ all: client server prompts
 client: client.o client_networking.o
 	gcc -o client client.o client_networking.o
 
-server: server.o
-	gcc -o server server.o
+server: server.o client_networking.o
+	gcc -o server server.o client_networking.o
 
 client.o: client.c client.h
 	gcc -c client.c
@@ -11,7 +11,7 @@ client.o: client.c client.h
 server.o: server.c server.h
 	gcc -c server.c
 
-client_networking.o: client_networking.c client.h
+client_networking.o: client_networking.c client_networking.h
 	gcc -c client_networking.c
 
 prompts: scramble_prompt.c get_prompt.c prompts.h

@@ -17,7 +17,8 @@ int network_start(char * address) {
 }
 
 void game_loop(int server_socket) {
-    char input[BUFFER_SIZE + 1];
+    char input[BUFFER_SIZE];
+    int connection_status;
 
     /* While the game is ongoing */
     while (1) {
@@ -30,7 +31,8 @@ void game_loop(int server_socket) {
             fgets(input, BUFFER_SIZE, stdin);
             /* Remove newline at the end of the input */
             input[strcspn(input, "\n")] = 0;
-            /* Send the input back to the server, give signal of completion*/
+            /* Send the input back to the server, */
+            write(server_socket, input, BUFFER_SIZE);
         }
         /* Check for a signal to skip your current turn. Ctrl + C will be used */
     }
