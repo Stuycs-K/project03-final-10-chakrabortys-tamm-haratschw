@@ -14,14 +14,10 @@ int main() {
         FD_SET(listen_socket, &read_fds);
         int i = select(listen_socket+1, &read_fds, NULL, NULL, NULL);
 
-        socklen_t sock_size;
-        struct sockaddr_storage client_address;
-        sock_size = sizeof(client_address);
-
         // if socket
         if (FD_ISSET(listen_socket, &read_fds)) {
             //accept the connection
-            int client_socket = accept(listen_socket,(struct sockaddr *)&client_address, &sock_size);
+            int client_socket = server_tcp_handshake(listen_socket);
             printf("Connected, waiting for data.\n");
 
             //read the whole prompt
