@@ -6,21 +6,48 @@
 
 struct node {char *word; struct node *nextNode};
 
-struct node* structHeap(char *word){
-    struct node* node = calloc(1, sizeof(struct node));
-    node->word = calloc(1, sizeof(word));
-    printf("Heapy, size given to node var word: %d, size of word %s: %d\n", sizeof(node->word), word, sizeof(word));
-    strcpy(node->word, word);
-    return node;
+void structHeap(struct node * start, char* word){
+    struct node * temp = start;
+    while (temp->nextNode != 0){
+        temp = temp->nextNode;
+    }
+    temp->nextNode = malloc(sizeof(temp));
+    temp->nextNode->word = word;
+    temp->nextNode->nextNode = 0;
+    printf("Done heaping sentence %s\n", temp->nextNode->word);
 }
 
-//insert word at end of linked list
-int wordInserter(struct node *list, char* word){
-    struct node *s = structHeap(word);
-    list->nextNode = s;
-    printf("Word given %s\n", word);
-    s->nextNode = NULL;
-    return 0;
+char** splitter(char* sentence){
+    char** wordList;
+    char* newSentence = calloc(strlen(sentence), sizeof(sentence));
+    int i = 0;
+    for(i = 0; i < strlen(sentence); i++){
+        newSentence[i] = *(sentence + i);
+    }
+    printf("Splitting string %s\n", newSentence);
+    i = 0;
+    while( (wordList[i] = strsep(&newSentence, " ")) != NULL ){
+        printf("Word given = %s\n", wordList[i]);
+        i++;
+    }
+    printf("Spl it\n");
+    return wordList;
+}
+
+struct node * initializeNodes(char* sentence){
+    struct node * start;
+    char** split = splitter(sentence);
+    start = malloc(sizeof(struct node));
+    int size = 4;
+    printf("Starting to initialize\n");
+    if(start == 0){
+        printf("failed to initialize");
+    }
+    for(int i = 0; i < size; i++){
+        structHeap(start, split[i]);//split is the string that has been split
+    }
+    start->word = "Prompt:";
+    return start;
 }
 
 int printList(struct node *head){
@@ -65,7 +92,7 @@ char* scramble(char* string){
     list[i] = "\0";
     srand(time(NULL));
     while(modSTR < list + strlen(string) - 1){
-        modSTR += 1;//rand() % (strlen(string) / 3);
+        modSTR += 4;//rand() % (strlen(string) / 3);
         if( (*modSTR < 48) || (*modSTR > 57 && *modSTR < 65) || (*modSTR > 90 && *modSTR < 97) || (*modSTR > 122)){
             continue;//don't replace
         }
@@ -74,48 +101,41 @@ char* scramble(char* string){
         printf("Character modified into: %d or %c\n", *modSTR, *modSTR);
     }
     printf("%s\n", list);
-    return string;
+    return list;
 }
 
 //separates the prompt into separate words, each to be passed as an argument into scramble().
 char* scramble_prompt(char* string){
     printf("a\n");
-    char * changer_string = strdup(string);
-    char * token, *saveptr;
-    //creates linked_list
     struct node *wordList = NULL;
     const char* delimiter = " ";
     printf("b\n");
-    while((token = strsep(&changer_string, delimiter)) != NULL){
-        wordInserter(&wordList, token);
-        //this if-statement skips the processing for empty tokens using `continue`.
-        if(*token == '\0'){
-            continue;
-        }
-    }
+    wordList = initializeNodes(string);
     printf("c\n");
     //loop through completed linked-list
     struct node *traverser = wordList;
-    char* word;
-    char* updated_word;
+    char* word = calloc(1, sizeof(wordList[0]));
+    printList(wordList);
+    printf("d\n");
     while(traverser != NULL){
         strcpy(word, traverser->word);
-        strcpy(updated_word, scramble(word));
-        strcpy(traverser->word, updated_word);
+        traverser->word = calloc(1, sizeof(wordList[0]));
+        strcpy(traverser->word, scramble(word));
+        printf("Moving on, added word %s to traverser\n", traverser->word);
         traverser = traverser->nextNode;
     }
-    printf("d\n");
-    printList(wordList);
     printf("e\n");
-    char* return_phrase = "";
+    char* return_phrase = calloc(strlen(string), sizeof(string));
     char* spacer = " ";
     traverser = wordList;
     while(traverser != NULL){
+        printf("Returning word %s to return_phrase\n", traverser->word);
         strcat(return_phrase, traverser->word);
         strcat(return_phrase, spacer);
+        traverser = traverser->nextNode;
     }
     printf("f\n");
-    free(changer_string);
+    free_list(wordList);
     return return_phrase;
 }
 
