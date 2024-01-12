@@ -3,7 +3,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#include "linkedlist.h"
+
+struct node {char *word; struct node *nextNode;};
 
 struct node* structHeap(char *word, struct node *next){
     struct node *pointer = calloc(1, sizeof(struct node));
@@ -22,7 +23,7 @@ void print_list(struct node *list){
     int counter = 0;
     struct node *traverser = list;
     while(traverser != 0){
-        printf("[%d] [Song name: %s, Artist: %s]\n", counter, traverser->word);
+        printf("[Index Number: %d] Word: %s\n", counter, traverser->word);
         counter++;
         traverser = traverser->nextNode;
     }
@@ -54,4 +55,3 @@ struct node * linkedlistpopulate(struct node * list){
 struct node * linkedlistinitialize(struct node * list){
 
 }
-
