@@ -30,7 +30,7 @@ void game_loop(int server_socket) {
             printf("Pass on what you think the original prompt was: ");
             fgets(input, BUFFER_SIZE, stdin);
             /* Remove newline at the end of the input */
-            input[strcspn(input, "\n")] = 0;
+            input[strlen(input)] = 0;
             /* Send the input back to the server, */
             write(server_socket, input, BUFFER_SIZE);
         }
