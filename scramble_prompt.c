@@ -45,7 +45,7 @@ char* control_function(char* string){
     if(inWordFlag){
         word_counter++;
     }
-    printf("%d\n", word_counter);
+    printf("Number of words in phrase: %d\n", word_counter);
     //allocate array of strings (to modify words)
     char** wordArray = malloc(word_counter * sizeof(char*));
     if(wordArray == NULL){
@@ -95,18 +95,4 @@ char* control_function(char* string){
     free(wordArray);
     free(testing_string);
     return result;
-}
-
-int main(){
-    char inputBuffer[1000];
-    printf("Enter a phrase: ");
-    fgets(inputBuffer, sizeof(inputBuffer), stdin);
-    if(strlen(inputBuffer) > 0 && inputBuffer[strlen(inputBuffer) - 1] == '\n'){
-        inputBuffer[strlen(inputBuffer) - 1] = '\0';
-    }
-    char * result = control_function(inputBuffer);
-    printf("Modified Phrase: %s\n", result);
-    //free result memory
-    free(result);
-    return 0;
 }
