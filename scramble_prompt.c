@@ -110,10 +110,3 @@ int main(){
     free(result);
     return 0;
 }
-
-//take phrase input
-//count number of words in phrase - DONE
-//create arrary, size = # of words - DONE
-//pass array to func -> loops through array, calling randomword() func to replace each word in the list
-//func passes new linkedlist (or same) to new func
-//returns new phrase 
