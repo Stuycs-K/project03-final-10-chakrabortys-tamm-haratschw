@@ -165,5 +165,5 @@ char* main(int argc, char* argv[]){
 
     printf("nfbniq0ubngonjgqnoj\n\n\n");
     printf("1tqejwk\n");
-    //return scrambled_eggs;
+    return scrambled_eggs;
 }
