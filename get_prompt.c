@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "scramble_prompt.c"
 
-int get_prompt(int argc, char* argv[]){
+int main(int argc, char* argv[]){
     char inputBuffer[1000];
     printf("Enter a phrase: ");
     fgets(inputBuffer, sizeof(inputBuffer), stdin);
