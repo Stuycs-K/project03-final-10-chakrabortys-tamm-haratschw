@@ -1,4 +1,4 @@
-all: client server prompts
+all: client server prompts random_prompt
 client: client.o networking.o
 	gcc -o client client.o networking.o
 
@@ -14,9 +14,12 @@ server.o: server.c server.h
 networking.o: networking.c networking.h
 	gcc -c networking.c
 
-prompts: scramble_prompt.c get_prompt.c prompts.h
+prompts: scramble_prompt.c get_prompt.c
 	gcc -c scramble_prompt.c
 	gcc -c get_prompt.c
+
+random_prompt: random_prompt.c random_prompt.h
+	gcc -c random_prompt.c
 
 clean:
 	rm *.o

@@ -48,7 +48,7 @@ What algorithms and /or data structures you will be using, and how.
 
 A timeline with expected completion dates of parts of the project.
 
-01/0X/24 - Completion of socket communications
-01/0X/24 - Completion of user input and file writing
-01/0X/24 - Completion string manipulation algorithm
+01/10/24 - Completion of socket communications
+01/08/24 - Completion of user input and file writing
+01/12/24 - Completion string manipulation algorithm
 01/16/24 - Completion, or near-completion, with both game and network aspects, with bug-fixes

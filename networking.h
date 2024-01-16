@@ -15,7 +15,7 @@
 #include <sys/socket.h> 
 #include <netdb.h>
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 512
 #define PORT "15236"
 
 int client_tcp_handshake(char*server_address);
