@@ -18,17 +18,36 @@ think about having dedicated C files for the logging, but decided to add it as f
 
 ### 2024-01-09 Initial Clientside Framework
 Created a general idea of how the user should be able to interact with the game, focusing primarily on the
-gameplay loop at first.
+gameplay loop at first. Corrected some additional errors with the makefile as well. (40m)
 
-### 2024-01-10
+### 2024-01-10 Server and Client Networking
+Added the server and client commands in networking.c to be used in server.c and client.c. A portion of this
+was from previous labs, but had to be changed significantly to fit this project. The old code additionally
+had errors that needed to be fixed before it could be fully implemented. (50m)
 
-### 2024-01-11
 
-### 2024-01-12
+### 2024-01-11 Connection Between Server and Client
+Successful connection established between the server and client! Most of the time was spent on rearranging parts
+of the code, and swapping out lines in networking.c until the connection finally happened. A lot of time was also
+spent on adding in select, in order for multiple clients to connect at the same time. A lot of the time was spent
+learning how select worked. (60m)
 
-### 2024-01-14
+### 2024-01-12 Sighandler Usage
+Attempt at implementing turn skipping with SIGINT using a sighandler in client.c. However, using CTRL+C for SIGINT
+did not work with fgets(), as the CTRL+C would be interpreted as input rather than as a trigger for the signal. The
+initial idea was to use a static variable to set a custom string to be sent to the server, rather than somehow sending
+the signal directly to the server. (30m)
 
-### 2024-01-15
+### 2024-01-14 Multiplayer
+Removed the sighandler from client.c in order to pursue the multiplayer implementation using select. Since I was absent
+on the day that this was explained, this took much longer than expected, and I wasn't able to get the code in a state where
+it would compile. A majority of the time was spent staring at select documentation and the code sample published on the website,
+yet to no avail. Due to the state of the code, I didn't commit it, but instead invited everyone else to a live share session. (80m)
+
+### 2024-01-15 Final Select Pain
+Continued pursuit of trying to get select to work. Eventually, we got the connection between the server and clients working! Clients
+would show up as connected to the server, and the server rightfully indicated it. However, I was not able to get it to work, and the
+data transfer betweenhte server and the client does not work. (190m)
 ===========
 ## William H
 
