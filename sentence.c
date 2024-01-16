@@ -18,16 +18,21 @@ void structHeap(struct node * start, char* word){
 }
 
 char** splitter(char* sentence){
-    char** wordList;
-    char* newSentence = calloc(strlen(sentence), sizeof(sentence));
-    int i = 0;
+    int spaceCounter = 0;
+    int i;
     for(i = 0; i < strlen(sentence); i++){
-        newSentence[i] = *(sentence + i);
+        if(sentence[i] == 32){
+            spaceCounter++;
+        }
     }
-    printf("Splitting string %s\n", newSentence);
+    printf("Space count = %d\n", spaceCounter);
+    char** wordList = malloc(spaceCounter * sizeof(char*));
+    char* newSentence = malloc(strlen(sentence) * sizeof(sentence));
     i = 0;
+    strcpy(newSentence, sentence);
+    printf("Splitting string %s\n", newSentence);
     while( (wordList[i] = strsep(&newSentence, " ")) != NULL ){
-        printf("Word given = %s\n", wordList[i]);
+        printf("%s\n", wordList[i]);
         i++;
     }
     printf("Spl it\n");
@@ -41,12 +46,13 @@ struct node * initializeNodes(char* sentence){
     int spaceCount = 0;
     int i = 0;
     printf("Counting Spaces\n");
-    while(split[i] != NULL){
+    printf("%s", split[i]);
+    while(split[i + 1] != NULL){
         printf("Count 1\n");
         spaceCount++;
         i++;
     }
-    int size = spaceCount;
+    int size = spaceCount + 1;
     printf("Starting to initialize\n");
     if(start == 0){
         printf("failed to initialize");
@@ -106,7 +112,7 @@ char* scramble(char* string){
         printf("Character to be modified: %d or %c\n", *modSTR, *modSTR);
         *modSTR = rand() % 94 + 33;
         printf("Character modified into: %d or %c\n", *modSTR, *modSTR);
-       // sleep(1);
+        sleep(1);
     }
     printf("%s\n", list);
     return list;
@@ -117,7 +123,6 @@ char* scramble_prompt(char* string){
     char* return_phrase = calloc(strlen(string), sizeof(string));
     printf("a\n");
     struct node *wordList = NULL;
-    const char* delimiter = " ";
     printf("b\n");
     wordList = initializeNodes(string);
     printf("c\n");
@@ -145,7 +150,7 @@ char* scramble_prompt(char* string){
     }
     printf("f\n");
     free_list(wordList);
-    printf("g\n");
+    printf("g\n");/**/
     return return_phrase;
 }
 
@@ -157,5 +162,8 @@ char* main(int argc, char* argv[]){
     printf("%s\n", raw_eggs);
     char* scrambled_eggs = scramble_prompt(raw_eggs);
     printf("%s\n", scrambled_eggs);
-    return scrambled_eggs;
+
+    printf("nfbniq0ubngonjgqnoj\n\n\n");
+    printf("1tqejwk\n");
+    //return scrambled_eggs;
 }

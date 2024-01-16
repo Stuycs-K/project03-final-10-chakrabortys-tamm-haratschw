@@ -11,6 +11,7 @@
 
 void parse_args( char* line){
     int status = system(line);
+    printf("Scrambling completed\n");
 }
 
 int main(){
