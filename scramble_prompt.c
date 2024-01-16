@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ctype.h>
-#include "linkedlist.c"
 
 void scrambleWord(char* word){
     char* list = calloc(strlen(word), sizeof(list));
@@ -27,7 +26,7 @@ void scrambleWord(char* word){
     }
 }
 
-int control_function(char* string){
+char* control_function(char* string){
     //first, count number of words in the phrase
     char * testing_string = strdup(string);
     int word_counter = 0;
@@ -71,16 +70,45 @@ int control_function(char* string){
     for(int i = 0; i < word_counter; i++){
         scrambleWord(wordArray[i]);
     }
+    //wordArray is now modified
     for(int i = 0; i < word_counter; i++){
-        printf("Word %d: %s\n", i, wordArray[i]);
+        printf("Modified word %d: %s\n", i, wordArray[i]);
     }
+    //Building the result string
+    int resultLength = 0;
+    for(int i = 0; i < word_counter; i++){
+        resultLength += strlen(wordArray[i]) + 1; //+1 for space between words
+    }
+    char* result = calloc(1, resultLength);
+    if(result == NULL){
+        fprintf(stderr, "Memory allocation for result string failed\n");
+        exit(EXIT_FAILURE);
+    }
+    result[0] = '\0';
+    for(int i = 0; i < word_counter; i++){
+        strcat(result, wordArray[i]);
+        strcat(result, " "); //add space between words
+    }
+    for(int i = 0; i < word_counter; i++){
+        free(wordArray[i]);
+    }
+    free(wordArray);
+    free(testing_string);
+    return result;
 }
 
 int main(){
-    char* original = "Hello World, Beautiful Day\n";
-    control_function(original);
-    //char* eggs = control_function("Hello World, Beautiful Day\n");
-    printf("%s\n", original);
+    char inputBuffer[1000];
+    printf("Enter a phrase: ");
+    fgets(inputBuffer, sizeof(inputBuffer), stdin);
+    if(strlen(inputBuffer) > 0 && inputBuffer[strlen(inputBuffer) - 1] == '\n'){
+        inputBuffer[strlen(inputBuffer) - 1] = '\0';
+    }
+    char * result = control_function(inputBuffer);
+    printf("Modified Phrase: %s\n", result);
+    //free result memory
+    free(result);
+    return 0;
 }
 
 //take phrase input
