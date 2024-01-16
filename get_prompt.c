@@ -8,3 +8,21 @@
 #include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
+
+void parse_args( char* line){
+    int status = system(line);
+}
+
+int main(){
+    char* line;
+    size_t buffSize = 0;
+    printf("Input prompt here: ");
+    getline(&line, &buffSize, stdin);    
+    line = strsep(&line, "\n");
+    char* args = malloc(sizeof(line) * (strlen(line) + strlen("sentence: ")));
+    char* sentence="./sentence \"";
+    strcat(args, sentence);
+    strcat(args, line);
+    strcat(args, "\"");
+    parse_args(args);
+}

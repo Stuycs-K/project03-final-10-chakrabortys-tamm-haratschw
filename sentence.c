@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-struct node {char *word; struct node *nextNode};
+struct node {char *word; struct node *nextNode;};
 
 void structHeap(struct node * start, char* word){
     struct node * temp = start;
@@ -14,7 +14,7 @@ void structHeap(struct node * start, char* word){
     temp->nextNode = malloc(sizeof(temp));
     temp->nextNode->word = word;
     temp->nextNode->nextNode = 0;
-    printf("Done heaping sentence %s\n", temp->nextNode->word);
+    printf("Done heaping sentence %s.\n", temp->nextNode->word);
 }
 
 char** splitter(char* sentence){
@@ -38,12 +38,20 @@ struct node * initializeNodes(char* sentence){
     struct node * start;
     char** split = splitter(sentence);
     start = malloc(sizeof(struct node));
-    int size = 4;
+    int spaceCount = 0;
+    int i = 0;
+    printf("Counting Spaces\n");
+    while(split[i] != NULL){
+        printf("Count 1\n");
+        spaceCount++;
+        i++;
+    }
+    int size = spaceCount;
     printf("Starting to initialize\n");
     if(start == 0){
         printf("failed to initialize");
     }
-    for(int i = 0; i < size; i++){
+    for(i = 0; i < size; i++){
         structHeap(start, split[i]);//split is the string that has been split
     }
     start->word = "Prompt:";
@@ -59,15 +67,15 @@ int printList(struct node *head){
 }
 
 //frees the linked list of words
-struct node * free_list(struct node *list){
-    struct node *traverser = list;
+void free_list(struct node *start){
     struct node *temp;
-    while(traverser != NULL){
-        temp = traverser;
-        traverser = traverser->nextNode;
+    while (start != NULL) {
+        printf("Freeing %s\n", start->word);
+        temp = start; 
+        start = start->nextNode;
+        free(temp->word);
         free(temp);
     }
-    return NULL;
 }
 
 int randomer(char* string){
@@ -89,16 +97,16 @@ char* scramble(char* string){
     for(i = 0; i < strlen(string); i++){
         list[i] = *(string + i);
     }
-    list[i] = "\0";
     srand(time(NULL));
     while(modSTR < list + strlen(string) - 1){
-        modSTR += 4;//rand() % (strlen(string) / 3);
+        modSTR += 3;//rand() % (strlen(string) / 3);
         if( (*modSTR < 48) || (*modSTR > 57 && *modSTR < 65) || (*modSTR > 90 && *modSTR < 97) || (*modSTR > 122)){
             continue;//don't replace
         }
         printf("Character to be modified: %d or %c\n", *modSTR, *modSTR);
         *modSTR = rand() % 94 + 33;
         printf("Character modified into: %d or %c\n", *modSTR, *modSTR);
+       // sleep(1);
     }
     printf("%s\n", list);
     return list;
@@ -106,6 +114,7 @@ char* scramble(char* string){
 
 //separates the prompt into separate words, each to be passed as an argument into scramble().
 char* scramble_prompt(char* string){
+    char* return_phrase = calloc(strlen(string), sizeof(string));
     printf("a\n");
     struct node *wordList = NULL;
     const char* delimiter = " ";
@@ -125,21 +134,28 @@ char* scramble_prompt(char* string){
         traverser = traverser->nextNode;
     }
     printf("e\n");
-    char* return_phrase = calloc(strlen(string), sizeof(string));
     char* spacer = " ";
     traverser = wordList;
     while(traverser != NULL){
         printf("Returning word %s to return_phrase\n", traverser->word);
         strcat(return_phrase, traverser->word);
         strcat(return_phrase, spacer);
+        printf("This is the return phrase %s\n", return_phrase);
         traverser = traverser->nextNode;
     }
     printf("f\n");
     free_list(wordList);
+    printf("g\n");
     return return_phrase;
 }
 
-int main(){
-    char* eggs = scramble_prompt("Hello World, Beautiful Day\n");
-    printf("%s\n", eggs);
+//expecting 1 argument, the given string
+//alternatively just use scramble_prompt from the .h file and ignore executing this file
+char* main(int argc, char* argv[]){
+    char *raw_eggs = malloc(sizeof(argv[1]));
+    raw_eggs = argv[1];
+    printf("%s\n", raw_eggs);
+    char* scrambled_eggs = scramble_prompt(raw_eggs);
+    printf("%s\n", scrambled_eggs);
+    return scrambled_eggs;
 }
