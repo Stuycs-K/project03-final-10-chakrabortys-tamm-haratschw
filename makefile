@@ -1,22 +1,28 @@
-all: client server prompts
-client: telephone_client client_networking.o
+all: client server prompts random_prompt
+client: client.o networking.o
+	gcc -o client client.o networking.o
 
-	gcc -o client telephone_client client_networking.o
+server: server.o networking.o
+	gcc -o server server.o networking.o
 
-server: telephone_server
-	gcc -o server telephone_server
-
-telephone_client: client.c client.h
+client.o: client.c client.h
 	gcc -c client.c
 
-client_networking.o: client_networking.c client.h
-	gcc -c client_networking.c
-
-telephone_server: server.c server.h
+server.o: server.c server.h
 	gcc -c server.c
+
+networking.o: networking.c networking.h
+	gcc -c networking.c
+
+prompts: scramble_prompt.c get_prompt.c
+	gcc -c scramble_prompt.c
+	gcc -c get_prompt.c
+
+random_prompt: random_prompt.c random_prompt.h
+	gcc -c random_prompt.c
 
 clean:
 	rm *.o
-	rm telephone_server
-	rm telephone_client
+	rm server
+	rm client
 	rm *~
