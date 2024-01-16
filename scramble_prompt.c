@@ -3,88 +3,89 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-//#include "linkedlist.c"
+#include <ctype.h>
+#include "linkedlist.c"
 
-struct node {char *word; struct node *nextNode;};
-
-char* scrambleWord(char* string){
-    char* list = calloc(strlen(string), sizeof(list));
+void scrambleWord(char* word){
+    char* list = calloc(strlen(word), sizeof(list));
     char* modSTR = list;
     int i = 0;
-    for(i = 0; i < strlen(string); i++){
-        list[i] = *(string + i);
+    for(i = 0; i < strlen(word); i++){
+        list[i] = *(word + i);
     }
-    strcpy(&list[i], "\0");
-    srand(time(0));
-    while(modSTR < list + strlen(string) - 1){
-        modSTR += 1;//rand() % (strlen(string) / 3);
-        if( (*modSTR < 48) || (*modSTR > 57 && *modSTR < 65) || (*modSTR > 90 && *modSTR < 97) || (*modSTR > 122)){
-            continue;//don't replace
-        }
-        printf("Character to be modified: %d or %c\n", *modSTR, *modSTR);
-        *modSTR = rand() % 94 + 33;
-        printf("Character modified into: %d or %c\n", *modSTR, *modSTR);
-    }
-    printf("%s\n", list);
-    return string;
-}
-
-//separates the prompt into separate words, each to be passed as an argument into scramble().
-char* scramble_prompt(char* string){
-    char * changer_string = strdup(string);
-    char * token, *saveptr;
-    //creates linked_list
-    struct node *wordList = 0;
-    const char* delimiter = " ";
-    while((token = strsep(&changer_string, delimiter)) != 0){
-        insert_front(wordList, token);
-        //this if-statement skips the processing for empty tokens using `continue`.
-        if(*token == '\0'){
-            continue;
+    list[i] = '\0';
+    srand(time(NULL));
+    int wordLength = strlen(word);
+    if (wordLength > 0) {
+        int randomIndex = rand() % wordLength;
+        // Ensure the character at the random index is an alphabet letter
+        if (isalpha(word[randomIndex])) {
+            char baseChar = isupper(word[randomIndex]) ? 'A' : 'a';
+            int offset = rand() % 26;
+            word[randomIndex] = baseChar + offset;
         }
     }
-    //loop through completed linked-list
-    struct node *traverser = wordList;
-    char* word;
-    char* updated_word;
-    while(traverser != 0){
-        strcpy(word, traverser->word);
-        strcpy(updated_word, scrambleWord(word));
-        strcpy(traverser->word, updated_word);
-        traverser = traverser->nextNode;
-    }
-    print_list(wordList);
-    char* return_phrase = "";
-    char* spacer = " ";
-    *traverser = *wordList;
-    while(traverser != 0){
-        strcat(return_phrase, traverser->word);
-        strcat(return_phrase, spacer);
-    }
-    free(changer_string);
-    return return_phrase;
 }
 
 int control_function(char* string){
+    //first, count number of words in the phrase
     char * testing_string = strdup(string);
-    int word_counter;
-    char * token;
-    while(token = strsep(&testing_string, token) != 0){
-        if(*token == '\0'){
-            continue;
+    int word_counter = 0;
+    int inWordFlag = 0;
+    for(int i = 0; testing_string[i] != '\0'; i++){
+        if(testing_string[i] == ' ' || testing_string[i] == '\t' || testing_string[i] == '\n'){
+            if(inWordFlag){
+                word_counter++;
+                inWordFlag = 0;
+            }
+        }else{
+            //flag to 1 means not inside a word
+            inWordFlag = 1;
         }
+    }
+    if(inWordFlag){
         word_counter++;
+    }
+    printf("%d\n", word_counter);
+    //allocate array of strings (to modify words)
+    char** wordArray = malloc(word_counter * sizeof(char*));
+    if(wordArray == NULL){
+        fprintf(stderr, "Memory allocation for wordArray failed\n");
+        exit(EXIT_FAILURE);
+    }
+    char* token = strtok(testing_string, " \t\n");
+    int i = 0;
+    while(token != NULL){
+        wordArray[i] = strdup(token);
+        if(wordArray[i] == NULL){
+            fprintf(stderr, "Memory allocation for wordArray element failed\n");
+            exit(EXIT_FAILURE);
+        }
+        i++;
+        token = strtok(NULL, " \t\n");
+    }
+    for(int i = 0; i < word_counter; i++){
+        printf("Word %d: %s\n", i, wordArray[i]);
+    }
+    //loop through array, modifying each word
+    for(int i = 0; i < word_counter; i++){
+        scrambleWord(wordArray[i]);
+    }
+    for(int i = 0; i < word_counter; i++){
+        printf("Word %d: %s\n", i, wordArray[i]);
     }
 }
 
 int main(){
-    char* eggs = scramble_prompt("Hello World, Beautiful Day\n");
-    printf("%s\n", eggs);
+    char* original = "Hello World, Beautiful Day\n";
+    control_function(original);
+    //char* eggs = control_function("Hello World, Beautiful Day\n");
+    printf("%s\n", original);
 }
 
 //take phrase input
-//count number of words in phrase
-//create linked list, size = # of words
-//pass linkedlist to func -> loops through linked list, calling randomword() func to replace each word in the list
+//count number of words in phrase - DONE
+//create arrary, size = # of words - DONE
+//pass array to func -> loops through array, calling randomword() func to replace each word in the list
 //func passes new linkedlist (or same) to new func
 //returns new phrase 
