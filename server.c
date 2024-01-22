@@ -22,7 +22,7 @@ int main() {
     printf("Starting a new telephone session!\n");
     printf("Server now listening on port %s...\n", PORT);
     
-    printf("Wait for all 4 players to join before setting the prompt\n>>> ");
+    printf("Wait for all 3 players to join before setting the prompt\n>>> ");
     fgets(prompt, sizeof(prompt), stdin);
     prompt[strlen(prompt) - 1] = 0;
     strcpy(original_prompt, prompt);
