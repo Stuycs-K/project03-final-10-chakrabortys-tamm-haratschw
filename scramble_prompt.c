@@ -16,17 +16,18 @@ void scrambleWord(char* word){
     srand(time(NULL));
     int wordLength = strlen(word);
     if (wordLength > 0) {
-        int randomIndex = rand() % wordLength;
-        // Ensure the character at the random index is an alphabet letter
-        if (isalpha(word[randomIndex])) {
-            char baseChar = isupper(word[randomIndex]) ? 'A' : 'a';
-            int offset = rand() % 26;
-            word[randomIndex] = baseChar + offset;
+        for (int index = 0; index < wordLength; index++) {
+            // Ensure the character at the index is an alphabet letter
+            if (isalpha(word[index])) {
+                char baseChar = isupper(word[index]) ? 'A' : 'a';
+                int offset = rand() % 26;
+                word[index] = baseChar + offset;
+            }
         }
     }
 }
 
-char* control_function(char* string){
+char* scramble_prompt(char* string){
     //first, count number of words in the phrase
     char * testing_string = strdup(string);
     int word_counter = 0;
@@ -45,11 +46,11 @@ char* control_function(char* string){
     if(inWordFlag){
         word_counter++;
     }
-    printf("Number of words in phrase: %d\n", word_counter);
+    // printf("Number of words in phrase: %d\n", word_counter);
     //allocate array of strings (to modify words)
     char** wordArray = malloc(word_counter * sizeof(char*));
     if(wordArray == NULL){
-        fprintf(stderr, "Memory allocation for wordArray failed\n");
+        // fprintf(stderr, "Memory allocation for wordArray failed\n");
         exit(EXIT_FAILURE);
     }
     char* token = strtok(testing_string, " \t\n");
@@ -57,22 +58,25 @@ char* control_function(char* string){
     while(token != NULL){
         wordArray[i] = strdup(token);
         if(wordArray[i] == NULL){
-            fprintf(stderr, "Memory allocation for wordArray element failed\n");
+            // fprintf(stderr, "Memory allocation for wordArray element failed\n");
             exit(EXIT_FAILURE);
         }
         i++;
         token = strtok(NULL, " \t\n");
     }
     for(int i = 0; i < word_counter; i++){
-        printf("Word %d: %s\n", i, wordArray[i]);
+        // printf("Word %d: %s\n", i, wordArray[i]);
     }
     //loop through array, modifying each word
     for(int i = 0; i < word_counter; i++){
-        scrambleWord(wordArray[i]);
+        int random_num = rand() % 4;
+        if (random_num < 2) {
+            scrambleWord(wordArray[i]);
+        }
     }
     //wordArray is now modified
     for(int i = 0; i < word_counter; i++){
-        printf("Modified word %d: %s\n", i, wordArray[i]);
+        // printf("Modified word %d: %s\n", i, wordArray[i]);
     }
     //Building the result string
     int resultLength = 0;
@@ -81,7 +85,7 @@ char* control_function(char* string){
     }
     char* result = calloc(1, resultLength);
     if(result == NULL){
-        fprintf(stderr, "Memory allocation for result string failed\n");
+        // fprintf(stderr, "Memory allocation for result string failed\n");
         exit(EXIT_FAILURE);
     }
     result[0] = '\0';

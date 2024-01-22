@@ -16,11 +16,16 @@
 #include <netdb.h>
 
 #define BUFFER_SIZE 512
-#define PORT "15236"
+#define PORT "1523"
 
 int client_tcp_handshake(char*server_address);
 int server_tcp_handshake(int listen_socket);
 int server_setup();
 void err(int i, char*message);
+
+struct player {
+    char username[512];
+    char response[512];
+};
 
 #endif

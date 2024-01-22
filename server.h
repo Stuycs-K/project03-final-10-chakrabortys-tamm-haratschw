@@ -6,10 +6,10 @@
 #include <string.h>
 #include <stdio.h>
 
-#define PLAYER_MIN 4
+#define PLAYER_MIN 3
 #define PLAYER_LIMIT 32
-#define TIMEOUT_SEC 30
 #define PROMPT_WORD_COUNT 10
+#define SKIP_PHRASE "SKIP"
 
 void connect_client(int connections[], int listen_socket);
 void disconnect_client(int connections[], int socket_num);

@@ -13,44 +13,52 @@ int main(int argc, char *argv[]) {
     }
     printf("Welcome to the Telephone game!\nYou are connected to: %s\n\n", address);
 
-    int server_socket = client_tcp_handshake(address);
-    game_loop(server_socket);
+    char username[BUFFER_SIZE];
+    printf("Enter your username: ");
+    fgets(username, sizeof(username), stdin);
+    username[strlen(username) - 1] = 0;
 
+    int server_socket = client_tcp_handshake(address);
+    game_loop(server_socket, username);
+
+    close(server_socket);
     return 0;
 }
 
-
-void game_loop(int server_socket) {
-    char prompt[BUFFER_SIZE] = "BLAH BLAH BLAH";
+void game_loop(int server_socket, char * username) {
     fd_set read_fds;
+    FD_ZERO(&read_fds);
+    FD_SET(STDIN_FILENO, &read_fds);
+    char prompt_read[BUFFER_SIZE];
+    char prompt_write[BUFFER_SIZE];
 
-    while (1) {
-        FD_ZERO(&read_fds);
-        FD_SET(server_socket, &read_fds);
+    printf("Please wait for your turn.\n");
+    read(server_socket, prompt_read, sizeof(prompt_read));
+    printf("RING RING RING!\n");
+    printf("From the telephone, you hear...\n");
+    printf("'%s'\n", prompt_read);
+    printf("That doesn't sound quiet right, but you have to pass on the prompt!\n");
+    printf("NOTE: type 'SKIP' if you want it to move on to the next person.\n");
+    printf("Do your best to fill in the garbled parts of what you heard, and write out the prompt.\n");
 
-        select(server_socket + 1, &read_fds, NULL, NULL, NULL);
+    /* Select is used here to add a timeout function */
+    struct timeval * timeout = malloc(sizeof(struct timeval));
+    timeout->tv_sec = TIMEOUT_SEC;
 
-        if (FD_ISSET(server_socket, &read_fds)) {
-            /* Give the user the scrambled prompt. Let the user wait before their turn comes */
-            printf("Seems the lines are slow, please wait for your turn...\n");
-            int bytes = read(server_socket, prompt, BUFFER_SIZE);
+    int i = select(STDIN_FILENO + 1, &read_fds, NULL, NULL, timeout);
 
-            if (bytes == 0) {
-                close(server_socket);
-                printf("Connection to the server terminated!");
-            }
-
-            printf("NOTE: You will time out in 30 seconds, write your prompt quickly!\n");
-            printf("From your side of the telephone, you heard...\n\"%s\"\n", prompt);
-            /* Ask the user to try to write what the original prompt was */
-            printf("Pass on what you think the original prompt was.\n>>> ");
-            fgets(input, BUFFER_SIZE, stdin);
-            /* Remove newline at the end of the input */
-            input[strlen(input)] = 0;
-            /* Send the input back to the server, */
-            int wbytes = write(server_socket, input, BUFFER_SIZE);
-            printf("Bytes written: %d", wbytes);
-        }
-        
+    /* Some error occured */
+    if (i == -1) {
+        printf("You shouldn't be seeing this...\n");
+        strcpy(prompt_write, "SKIP");
+    } else if (i == 0) {
+        printf("Too slow! Moving on to the next player.\n");
+        strcpy(prompt_write, "SKIP");
+    } else {
+        fgets(prompt_write, sizeof(prompt_write), stdin);
+        /* Replace the newline character with a string terminating char */
+        prompt_write[strlen(prompt_write) - 1] = 0;
     }
+
+    write(server_socket, prompt_write, sizeof(prompt_write));
 }

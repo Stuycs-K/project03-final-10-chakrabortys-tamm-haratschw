@@ -48,11 +48,12 @@ int server_setup() {
     //setup structs for getaddrinfo
     struct addrinfo * hints, * results;
     hints = calloc(1, sizeof(struct addrinfo));
+    results = calloc(1, sizeof(struct addrinfo));
 
     hints->ai_family = AF_INET;
     hints->ai_socktype = SOCK_STREAM; //TCP socket
     hints->ai_flags = AI_PASSIVE; //only needed on server
-    int i = getaddrinfo(NULL, PORT, hints, &results); //Server sets node to NULL
+    int i = getaddrinfo(NULL, "1523", hints, &results); //Server sets node to NULL
     err(i, "getaddrinfo error");
     //create the socket
     int clientd;//store the socket descriptor here
@@ -70,7 +71,7 @@ int server_setup() {
     i = bind(clientd, results->ai_addr, results->ai_addrlen);
     err(i, "bind error");
     //set socket to listen state
-    listen(clientd, 3);
+    listen(clientd, 32);
 
     //free the structs used by getaddrinfo
     free(hints);
