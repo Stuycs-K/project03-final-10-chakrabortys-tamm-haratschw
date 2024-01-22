@@ -29,8 +29,12 @@ void game_loop(int server_socket, char * username) {
     fd_set read_fds;
     FD_ZERO(&read_fds);
     FD_SET(STDIN_FILENO, &read_fds);
+
     char prompt_read[BUFFER_SIZE];
     char prompt_write[BUFFER_SIZE];
+    char original_prompt[BUFFER_SIZE];
+
+    struct player * current_player = malloc(sizeof(struct player));
 
     printf("Please wait for your turn.\n");
     read(server_socket, prompt_read, sizeof(prompt_read));
@@ -60,5 +64,13 @@ void game_loop(int server_socket, char * username) {
         prompt_write[strlen(prompt_write) - 1] = 0;
     }
 
-    write(server_socket, prompt_write, sizeof(prompt_write));
+    strcpy(current_player->username, username);
+    strcpy(current_player->response, prompt_write);
+    // printf("prompt_write: %s\n", prompt_write);
+    // printf("response: %s\n", current_player->response);
+
+    write(server_socket, current_player, sizeof(struct player));
+    read(server_socket, original_prompt, sizeof(original_prompt));
+
+    printf("The original prompt was...\n'%s'\nHope you had fun!\n", original_prompt);
 }

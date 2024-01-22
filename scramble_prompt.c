@@ -5,6 +5,8 @@
 #include <time.h>
 #include <ctype.h>
 
+#define RANDOMIZATION_FACTOR 6
+
 void scrambleWord(char* word){
     char* list = calloc(strlen(word), sizeof(list));
     char* modSTR = list;
@@ -13,7 +15,6 @@ void scrambleWord(char* word){
         list[i] = *(word + i);
     }
     list[i] = '\0';
-    srand(time(NULL));
     int wordLength = strlen(word);
     if (wordLength > 0) {
         for (int index = 0; index < wordLength; index++) {
@@ -69,7 +70,7 @@ char* scramble_prompt(char* string){
     }
     //loop through array, modifying each word
     for(int i = 0; i < word_counter; i++){
-        int random_num = rand() % 4;
+        int random_num = rand() % RANDOMIZATION_FACTOR;
         if (random_num < 2) {
             scrambleWord(wordArray[i]);
         }

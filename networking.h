@@ -24,8 +24,8 @@ int server_setup();
 void err(int i, char*message);
 
 struct player {
-    char username[512];
-    char response[512];
+    char username[BUFFER_SIZE];
+    char response[BUFFER_SIZE];
 };
 
 #endif

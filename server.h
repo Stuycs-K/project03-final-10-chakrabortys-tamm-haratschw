@@ -5,6 +5,8 @@
 #include <sys/time.h>
 #include <string.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <stdlib.h>
 
 #define PLAYER_MIN 3
 #define PLAYER_LIMIT 32
@@ -12,6 +14,6 @@
 #define SKIP_PHRASE "SKIP"
 
 void connect_client(int connections[], int listen_socket);
-void disconnect_client(int connections[], int socket_num);
+void log_entry(int log_file, char name[], char prompt[]);
 
 #endif
