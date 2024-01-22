@@ -20,7 +20,7 @@ void readToList(const char* fileName){
     fclose(file);
 }
 
-int readDictionary(){
+int main(){
     readToList("/usr/share/dict/words");
     return 0;
 }

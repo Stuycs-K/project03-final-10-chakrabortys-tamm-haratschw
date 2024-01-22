@@ -2,6 +2,7 @@
 #define RANDOM_PROMPT_H
 
 #include "client.h"
+#include "time.h"
 #include "server.h"
 #include "wordlist.c"
 

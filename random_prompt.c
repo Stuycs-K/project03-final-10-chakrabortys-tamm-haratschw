@@ -5,7 +5,7 @@
 char* randomPrompt(int numWords){
     if(numWords <= 0){
         printf("Number of words should be greater than 0.\n");
-        return;
+        return "err";
     }
     srand(time(NULL));
     char * phrase = malloc(MAX_PHRASE_LENGTH * sizeof(char));
